@@ -1,0 +1,21 @@
+
+.header{
+    background: #2B2C28;
+    font-weight: 800;
+    box-shadow: 2px 2px 2px 1px #2B2C28;
+}
+
+.links{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 300px;
+    :hover{
+        color: #5d737e;
+    }
+}
+.brand{ 
+    padding-left:20px;
+}
+
+.navLink{
+}

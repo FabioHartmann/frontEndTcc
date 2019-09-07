@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f1f1f1; 
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.links{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  align-content: stretch;
+}
+.navLink{
+  align-self: center;
+  flex-shrink: 1;
+  text-decoration: none;
+  color: #f1f1f1;
+  font-size: 24px;
+}
