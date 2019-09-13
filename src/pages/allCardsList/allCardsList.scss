@@ -1,0 +1,44 @@
+.flexBox{
+display: flex;
+flex-direction: row;
+align-items: stretch;
+flex-wrap: nowrap;
+}
+.sideBar{
+    background: #2C3439;
+    // flex-grow: 4;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-content: center;
+    min-width: 200px;
+    padding-top: 100px;
+}
+.mainDiv{
+    // flex-grow: 4;
+    background: #f1f1f1;
+}
+.cardListDiv{
+    padding-left:10px; 
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.cardDiv{
+    max-width: 180px;
+    max-height:233px;
+    background: #2C3439;
+    padding-left: 10px;
+    padding-top:20px;
+    align-content: center;
+}
+.card{
+    max-width: 160px;
+    max-height:233px;
+    margin-right: 20px;
+
+}
