@@ -3,9 +3,7 @@ import {Form, Button, Container, Alert, Row} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
 
-import './allCardsList.scss';
-
-export default class AllCardsList extends React.Component {
+export default class MyCards extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +88,7 @@ export default class AllCardsList extends React.Component {
             searchString=`${searchString}&race=${this.state.race}`;
         }
 
-        const cardArray = await axios.get(baseURL+`/allCards/?pageNumber=${pageNumber}&size=18${searchString}`);        
+        const cardArray = await axios.get(baseURL+`/userCardsList/${localStorage.getItem('username')}?pageNumber=${pageNumber}&size=18${searchString}`);        
         this.setState({
             cards:cardArray.data.list,
             pageNumber: pageNumber,   
@@ -104,11 +102,12 @@ export default class AllCardsList extends React.Component {
     }
 
     nextPage = () =>{ 
-        let maxPageNumber = Math.ceil(this.state.totalCards/18);    
+        let maxPageNumber = Math.ceil(this.state.totalCards/32);    
         if(this.state.pageNumber < maxPageNumber){
             this.findCards(this.state.pageNumber+1);
         }// tratar erro
     }
+
     
     render(){
         return (
@@ -238,7 +237,7 @@ export default class AllCardsList extends React.Component {
                 </div>
                 <div className="mainDiv">
                     <div className="cardListDiv">
-                    {this.state.cards.map((card) =><div className="cardDiv" key={card.id}><a href={`/card/${card.id}`}><img src={card.card_images[0].image_url}  className='card'></img></a></div>)}
+                    {this.state.cards.map((element) =><div className="cardDiv" key={element.card.id}><a href={`/card/${element.card.id}`}><img src={element.card.card_images[0].image_url}  className='card'></img></a></div>)}
                     </div>
                     <div className='buttons'>
                     <button className='paginationButton' type="button" onClick={this.previousPage}>{ `<` }</button>

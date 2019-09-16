@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Button, Container, Alert} from 'react-bootstrap';
-import Header from "../../components/header";
 import axios from "axios";
+import { Route, Redirect } from 'react-router'
 import {baseURL} from '../../middleware/axios';
 
 import './login.scss';
@@ -12,6 +12,7 @@ export default class Login extends React.Component {
         this.state = {
         username:'',
         password:'',
+        isLogged: false,
     };
     this.handleUsername = this.handleUsername.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
@@ -32,27 +33,20 @@ export default class Login extends React.Component {
         this.setState({password:pass})
     }
 
-    submition(){
+    async submition(){
         const {username, password} = this.state;  
-               axios.post(baseURL+'/login', {username: username, password:password})
-                .then(() => {
-                //adicionar rota pra login
-                console.log('Logado com sucesso')
-                }).catch(() =>{
-                console.log('Falha ao Logar' )
-            })
-
-    }
-
-    registerRouter(){
-        console.log("Indo pra rota de registro");
         
-    }
+        const login = await axios.post(baseURL+'/login', {username: username, password:password});
+        if(login.data.success){
+            localStorage.setItem('token', login.data._token);
+            localStorage.setItem('username', username);
 
+            this.setState({isLogged:true});
+        }
+    }
     render(){
         return (
             <React.Fragment>
-            <Header/>
             <Container>
             <div className="formDiv">
                 <Form className="form">
@@ -69,16 +63,17 @@ export default class Login extends React.Component {
                         <Form.Control type="password" value={this.state.password} onChange={this.handlePassword} />
                         <br></br>
                     </Form.Group>
-                    <Button variant="primary" type="submit" onSubmit={() => this.submition} onClick={this.submition}>
+                    <Button variant="primary" type="button" onClick={this.submition}>
                         LogIn
                     </Button>
                     <br></br>
-                    <Button variant="primary" type="button" onSubmit={() => this.registerRouter} onClick={this.registerRouter}>
+                    <Button variant="primary" type="button" href='/register'>
                         Register
                     </Button>
                     </Form>
             </div>
             </Container>
+            {this.state.isLogged && <Redirect to='/allCardList'></Redirect>}
             </React.Fragment>
         )
     }

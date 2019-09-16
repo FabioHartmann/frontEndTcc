@@ -1,20 +1,29 @@
 
 .header{
     background: #2B2C28;
-    font-weight: 800;
     box-shadow: 2px 2px 2px 1px #2B2C28;
+    display: flex;
+    justify-content: space-between;
+
 }
 
 .links{
     display: flex;
     justify-content: space-between;
-    padding-right: 300px;
+    width: 70vw;
+    font-weight: 800;
+
     :hover{
         color: #5d737e;
     }
 }
 .brand{ 
     padding-left:20px;
+}
+
+.logout{
+    font-size: 16px;
+    padding-right: 5vw;
 }
 
 .navLink{

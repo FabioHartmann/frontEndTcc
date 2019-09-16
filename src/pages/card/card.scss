@@ -1,0 +1,67 @@
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top:30px;
+}
+
+.imageDiv{
+    max-width: 300px;
+    max-height: 437.52px;
+    background: #2C3439;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top:8px;
+    padding-bottom:8px;
+    &:hover{
+        box-shadow: 2px 2px 2px 2px #2C3439;
+    }
+}
+.image{
+    max-width: 300px;
+}
+.cardInformation{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width:60vw;
+    height: 65vh;
+    background-color: #2C3439;
+}
+.informationInput{
+    height: 30px;
+    width: 40%;
+    &:hover{
+        box-shadow: 2px 2px 2px 2px #2C3439;
+    }
+}
+.firstLine{
+    margin-top:40px;
+}
+textarea{
+    width: 52vw;
+    height:10vh;
+    resize:none;
+    &:hover{
+        box-shadow: 2px 2px 2px 2px #2C3439;
+    }
+}
+.cardForm{
+    display:flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.collectionButton{
+    color:#f1f1f1;
+    background: #2C3439;
+    height:20px;
+    border: #2C3439;
+    &:hover{
+        color: #5d737e;
+        box-shadow: 2px 2px 2px 2px #2C3439;
+    }
+}

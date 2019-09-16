@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form, Button, Container, Alert} from 'react-bootstrap';
-import Header from "../../components/header";
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
 
@@ -75,7 +74,6 @@ export default class Register extends React.Component {
     render(){
         return (
             <React.Fragment>
-            <Header/>
             <Container>
             <div className="formDiv">
                 <Form className="form">
@@ -106,7 +104,7 @@ export default class Register extends React.Component {
                     <Button variant="primary" type="submit" onSubmit={() => this.submition} onClick={this.submition}>
                         Register
                     </Button>
-                    <Button variant="primary" type="button" onSubmit={() => this.logInRoute} onClick={this.logInRoute}>
+                    <Button variant="primary" type="button" href='/login'>
                         Login
                     </Button>
                     </Form>
