@@ -28,12 +28,36 @@ export default class Deck extends React.Component {
             mainDeck:foundDeck.data.deck[0].deck_cards,
             extraDeck:foundDeck.data.deck[0].extra_deck_cards,
         });
+        this.renderMainDeck();
+        this.renderExtraDeck();
     }
 
     renderMainDeck = () =>{
-        this.state.mainDeck.map((card) => <div className="cardDiv" key={card.card.id}><a href={`/card/${card.card.id}`}><img src={card.card.card_images[0].image_url}  className='card'></img></a></div>)
-        //fazer repetir a carta conforme a quantidade no deck
+        let newMainDeckCards = [];
+        this.state.mainDeck.forEach((card) =>{
+        for (let index = 0; index < card.card_amount; index++) {
+            console.log('dentro do for',card);
+            
+            newMainDeckCards.push(card)
+            }
+       })
+       console.log(newMainDeckCards);
+       this.setState({mainDeck:newMainDeckCards})
     }
+    
+    renderExtraDeck = () =>{
+        let newExtraDeckCards = [];
+        this.state.extraDeck.forEach((card) =>{
+        for (let index = 0; index < card.card_amount; index++) {
+            console.log('dentro do for',card);
+            
+            newExtraDeckCards.push(card)
+            }
+       })
+       console.log(newExtraDeckCards);
+       this.setState({extraDeck:newExtraDeckCards})
+    }
+    
 
     render(){
         return (
@@ -42,9 +66,11 @@ export default class Deck extends React.Component {
                 <div className='sideBar '>
                 </div>
                 <div className="deckMainDiv">
+                    <span className='title'>Main Deck</span>
                     <div className="cardListDiv">
                     {this.state.mainDeck.map((card) =><div className="cardDiv" key={card.card.id}><a href={`/card/${card.card.id}`}><img src={card.card.card_images[0].image_url}  className='card'></img></a></div>)}
                     </div>
+                    <span className='title'>Extra Deck</span>
                     <div className="cardListDiv">
                     {this.state.extraDeck.map((card) =><div className="cardDiv" key={card.card.id}><a href={`/card/${card.card.id}`}><img src={card.card.card_images[0].image_url}  className='card'></img></a></div>)}
                     </div>

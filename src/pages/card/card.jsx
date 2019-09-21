@@ -13,9 +13,11 @@ export default class Card extends React.Component {
             card:null,
             cardNumber:null,
             cardOwn:null,
+            cardAmount:null,
             deck:'',
             decks:null,
             deckCardNumber:null,
+             
 
     };
     this.getCard = this.getCard.bind(this);
@@ -29,12 +31,16 @@ export default class Card extends React.Component {
     }
 
     async getCard(){
-        const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}/?username=${localStorage.getItem('username')}`);        
+        const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}/?username=${localStorage.getItem('username')}`);  
+        console.log(foundCard);
+                           
         this.setState({
             card:foundCard.data.list,
             cardOwn:foundCard.data.userOwnThisCard,
+            cardAmount:foundCard.data.card_amount
         });
     }
+
     
     handleNumber = (e) =>{
         const number = parseInt(e.target.value);
@@ -57,8 +63,9 @@ export default class Card extends React.Component {
     }
 
     checkBanList = () =>{
-        const {card} = this.state;
-        if(card.banlist_info){
+        const {card} = this.state;      
+          console.log('banlist information',!!card.banlist_info);
+        if(!!card.banlist_info && !!card.banlist_info.ban_tcg){
             return (
             <input className="informationInput" readOnly value={`Banlist TCG: ${card.banlist_info.ban_tcg}`}/>
             )
@@ -66,17 +73,18 @@ export default class Card extends React.Component {
     }
 
      insertCardInCollection = async () =>{
-         const  {card, cardNumber} = this.state;
+        const  {card, cardNumber} = this.state;
         const username = localStorage.getItem('username');
         if(cardNumber){
             const insertCard = await axios.post(baseURL+'/inserIntoColection', {username: username, card:card, card_amount:cardNumber});
         }//tratar erro
+        this.getCard()
+
     }
     insertCardIntoDeck = async () =>{
         const {deck, deckCardNumber, card} = this.state;
-        const username = localStorage.getItem('username');
-        console.log(card);
-        
+        const username = localStorage.getItem('username');        
+
         const postCard = {
                 card_id: card.id,
                 card_amount: deckCardNumber,
@@ -85,7 +93,8 @@ export default class Card extends React.Component {
 
         if(deck && deckCardNumber){
             const insertCard = await axios.post(baseURL+'/insertCardIntoDeck', {username: username, card:postCard, deck_name:deck});
-        }        
+        } 
+        this.checkHasCardOwner();      
     }
 
     getDecks = async () =>{     
@@ -96,8 +105,6 @@ export default class Card extends React.Component {
      checkHasCardOwner = () =>{
         const {cardOwn, decks} = this.state;
      
-    console.log(decks);
-
         if(cardOwn && decks){
             return(
                 <>
@@ -112,6 +119,18 @@ export default class Card extends React.Component {
             )
         }        
         }
+    renderCardAmountInCollection = () =>{
+        const {cardAmount} = this.state;
+        if(cardAmount > 0){
+        return(
+        <div className='cardOwn'>
+        <span>Card amount in:</span>
+        <br/>
+        <input className='firstLine informationInput' readOnly value={`Collection: ${cardAmount}`}/>
+        </div>)
+        }
+
+    }
 
     cardInformation = () =>{
         const {card} =this.state;
@@ -234,6 +253,7 @@ export default class Card extends React.Component {
             {this.checkHasCardOwner()}
             </div>
             </div>
+            {this.renderCardAmountInCollection()}
             </>
         )
     }
