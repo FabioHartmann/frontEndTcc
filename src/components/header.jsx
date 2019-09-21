@@ -39,7 +39,7 @@ export default class Header extends React.Component {
               /></Nav.Link>
                 <Nav.Link className="navLink" href="/allCardList">Search Cards</Nav.Link>
                 <Nav.Link className="navLink" href="/myCards">My Cards</Nav.Link>
-                <Nav.Link className="navLink" href="/myDecks">Manage Decks</Nav.Link>
+                <Nav.Link className="navLink" href="/manageDecks">Manage Decks</Nav.Link>
             </Nav>
             <Nav.Link className="navLink logout" onClick={this.logout}> LogOut</Nav.Link>
 

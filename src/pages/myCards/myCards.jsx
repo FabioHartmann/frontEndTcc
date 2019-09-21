@@ -102,13 +102,17 @@ export default class MyCards extends React.Component {
     }
 
     nextPage = () =>{ 
-        let maxPageNumber = Math.ceil(this.state.totalCards/32);    
+        let maxPageNumber = Math.ceil(this.state.totalCards/18);    
         if(this.state.pageNumber < maxPageNumber){
             this.findCards(this.state.pageNumber+1);
         }// tratar erro
     }
 
-    
+    checkCards = () =>{
+        if(this.state.cards.length >0 ){
+            return this.state.cards.map((element) =><div className="cardDiv" key={element.card.id}><a href={`/card/${element.card.id}`}><img src={element.card.card_images[0].image_url}  className='card'></img></a></div>)
+        }
+    }
     render(){
         return (
             <React.Fragment>
@@ -237,7 +241,7 @@ export default class MyCards extends React.Component {
                 </div>
                 <div className="mainDiv">
                     <div className="cardListDiv">
-                    {this.state.cards.map((element) =><div className="cardDiv" key={element.card.id}><a href={`/card/${element.card.id}`}><img src={element.card.card_images[0].image_url}  className='card'></img></a></div>)}
+                    {this.checkCards()}
                     </div>
                     <div className='buttons'>
                     <button className='paginationButton' type="button" onClick={this.previousPage}>{ `<` }</button>

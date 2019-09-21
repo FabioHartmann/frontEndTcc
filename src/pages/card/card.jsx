@@ -15,16 +15,21 @@ export default class Card extends React.Component {
             cardOwn:null,
             deck:'',
             decks:null,
+            deckCardNumber:null,
+
     };
     this.getCard = this.getCard.bind(this);
+    this.getDecks = this.getDecks.bind(this);
+
 }
     
     componentDidMount(){
         this.getCard();
+        this.getDecks();
     }
 
     async getCard(){
-        const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}`);        
+        const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}/?username=${localStorage.getItem('username')}`);        
         this.setState({
             card:foundCard.data.list,
             cardOwn:foundCard.data.userOwnThisCard,
@@ -34,6 +39,10 @@ export default class Card extends React.Component {
     handleNumber = (e) =>{
         const number = parseInt(e.target.value);
         this.setState({cardNumber:number});
+    }
+    handleDeckNumber = (e) => {
+        const number = parseInt(e.target.value);
+        this.setState({deckCardNumber:number});
     }
 
     handleDeck = (e) =>{
@@ -64,21 +73,40 @@ export default class Card extends React.Component {
         }//tratar erro
     }
     insertCardIntoDeck = async () =>{
-        console.log('lalala');
+        const {deck, deckCardNumber, card} = this.state;
+        const username = localStorage.getItem('username');
+        console.log(card);
         
-    }
-    checkHasCardOwner = () =>{
-        const {cardOwn} = this.state;
-        console.log(cardOwn);
-        // const user = await axios.get(baseURL+'/inserIntoColection', {username: username, card:card, card_amount:cardNumber});
+        const postCard = {
+                card_id: card.id,
+                card_amount: deckCardNumber,
+                type: card.type
+        }
 
-        if(cardOwn){
+        if(deck && deckCardNumber){
+            const insertCard = await axios.post(baseURL+'/insertCardIntoDeck', {username: username, card:postCard, deck_name:deck});
+        }        
+    }
+
+    getDecks = async () =>{     
+            const decks =  await axios.get(baseURL + `/allDecks/?username=${localStorage.getItem('username')}`);
+            this.setState({decks:decks.data.decks});
+    }
+
+     checkHasCardOwner = () =>{
+        const {cardOwn, decks} = this.state;
+     
+    console.log(decks);
+
+        if(cardOwn && decks){
             return(
                 <>
                 <label>Choose Deck:</label>
                 <select type="text" required value={this.state.deck} onChange={this.handleDeck} >
-                {"MAp de options"}    
+                    <option></option>
+                {this.state.decks.map((deck) => <option>{deck.deck_name}</option>)}    
                 </select>
+                <input type="number" placeholder="Card amount" required value={this.state.deckCardNumber} onChange={this.handleDeckNumber} />
                 <button type="button" className="collectionButton" onClick={this.insertCardIntoDeck}>Add to Deck</button>
                 </>
             )
@@ -191,7 +219,9 @@ export default class Card extends React.Component {
             }
         }
     }
-        render(){       
+        render(){    
+            console.log(this.state.decks);
+               
         return (
             <>
             <div className='wrapper'>
