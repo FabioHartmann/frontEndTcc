@@ -3,6 +3,8 @@ import {Form, Button, Container, Alert} from 'react-bootstrap';
 import axios from "axios";
 import { Route, Redirect } from 'react-router'
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
+
 
 import './card.scss';
 
@@ -33,15 +35,12 @@ export default class Card extends React.Component {
     async getCard(){
         const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}/?username=${localStorage.getItem('username')}`);  
         console.log(foundCard);
-                           
         this.setState({
             card:foundCard.data.list,
             cardOwn:foundCard.data.userOwnThisCard,
             cardAmount:foundCard.data.card_amount
         });
     }
-
-    
     handleNumber = (e) =>{
         const number = parseInt(e.target.value);
         this.setState({cardNumber:number});
@@ -75,8 +74,11 @@ export default class Card extends React.Component {
      insertCardInCollection = async () =>{
         const  {card, cardNumber} = this.state;
         const username = localStorage.getItem('username');
+        console.log('Bearer ' + localStorage.getItem('token'));
+        
         if(cardNumber){
-            const insertCard = await axios.post(baseURL+'/inserIntoColection', {username: username, card:card, card_amount:cardNumber});
+            const insertCard = await axios.post(baseURL+'/inserIntoColection',
+            {username: username, card:card, card_amount:cardNumber, token:'Bearer ' + localStorage.getItem('token')});
         }//tratar erro
         this.getCard()
 
@@ -92,13 +94,14 @@ export default class Card extends React.Component {
         }
 
         if(deck && deckCardNumber){
-            const insertCard = await axios.post(baseURL+'/insertCardIntoDeck', {username: username, card:postCard, deck_name:deck});
+            const insertCard = await axios.post(baseURL+'/insertCardIntoDeck', {username: username, card:postCard, deck_name:deck, token:'Bearer ' + localStorage.getItem('token')});
         } 
         this.checkHasCardOwner();      
     }
 
     getDecks = async () =>{     
-            const decks =  await axios.get(baseURL + `/allDecks/?username=${localStorage.getItem('username')}`);
+            const decks =  await axios.get(baseURL + `/allDecks/?username=${localStorage.getItem('username')}`,
+            {headers: {Authorization:'Bearer ' + localStorage.getItem('token')}});
             this.setState({decks:decks.data.decks});
     }
 
@@ -243,6 +246,7 @@ export default class Card extends React.Component {
                
         return (
             <>
+            <Header isLogged={localStorage.getItem('token')}/>
             <div className='wrapper'>
                 {this.showImage()}
                 {this.cardInformation()}

@@ -2,6 +2,8 @@ import React from 'react';
 import {Form, Button, Container, Alert, Row} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
+
 
 import './allCardsList.scss';
 
@@ -113,6 +115,7 @@ export default class AllCardsList extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')}/>
             <div className="flexBox">
                 <div className='sideBar '>
                 <Form className="">

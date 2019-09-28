@@ -2,6 +2,8 @@ import React from 'react';
 import {Form, Button, Container, Alert, Row} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
+
 
 export default class MyCards extends React.Component {
     constructor(props) {
@@ -88,7 +90,9 @@ export default class MyCards extends React.Component {
             searchString=`${searchString}&race=${this.state.race}`;
         }
 
-        const cardArray = await axios.get(baseURL+`/userCardsList/${localStorage.getItem('username')}?pageNumber=${pageNumber}&size=18${searchString}`);        
+        const cardArray = await axios.get(baseURL+`/userCardsList/${localStorage.getItem('username')}?pageNumber=${pageNumber}&size=18${searchString}`,
+            {headers: {Authorization:'Bearer ' + localStorage.getItem('token')}});       
+                 
         this.setState({
             cards:cardArray.data.list,
             pageNumber: pageNumber,   
@@ -116,6 +120,7 @@ export default class MyCards extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')}/>
             <div className="flexBox">
                 <div className='sideBar '>
                 <Form className="">

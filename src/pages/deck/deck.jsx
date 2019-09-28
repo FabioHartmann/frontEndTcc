@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, Button, Container, Alert, Row} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
 
 import './deck.scss';
 
@@ -20,10 +21,15 @@ export default class Deck extends React.Component {
         this.getDeck();
     }
 
-    async getDeck(){        
-        const foundDeck = await axios.get(baseURL+`/deck/?name=${this.props.match.params.name}&username=${localStorage.getItem('username')}`);  
-        console.log(foundDeck.data.deck[0].deck_cards);
+    async getDeck(){   
+        console.log('a');
         
+        console.log('Func' + localStorage.getItem('token'));
+             
+        const foundDeck = await axios.get(baseURL+`/deck/?name=${this.props.match.params.name}&username=${localStorage.getItem('username')}`,
+        {headers: {Authorization:'Bearer ' + localStorage.getItem('token')}});     
+
+
         this.setState({
             mainDeck:foundDeck.data.deck[0].deck_cards,
             extraDeck:foundDeck.data.deck[0].extra_deck_cards,
@@ -62,6 +68,7 @@ export default class Deck extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')}/>
             <div className="flexBox">
                 <div className='sideBar '>
                 </div>

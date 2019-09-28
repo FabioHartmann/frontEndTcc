@@ -2,6 +2,8 @@ import React from 'react';
 import {Form, Button, Container, Alert} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
+
 
 import './register.scss';
 
@@ -74,6 +76,7 @@ export default class Register extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')}/>
             <Container>
             <div className="formDiv">
                 <Form className="form">

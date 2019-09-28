@@ -3,6 +3,7 @@ import {Form, Button, Container, Alert} from 'react-bootstrap';
 import axios from "axios";
 import { Route, Redirect } from 'react-router'
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
 
 import './login.scss';
 
@@ -47,6 +48,7 @@ export default class Login extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')} />
             <Container>
             <div className="formDiv">
                 <Form className="form">
@@ -63,11 +65,11 @@ export default class Login extends React.Component {
                         <Form.Control type="password" value={this.state.password} onChange={this.handlePassword} />
                         <br></br>
                     </Form.Group>
-                    <Button variant="primary" type="button" onClick={this.submition}>
+                    <Button variant="primary" type="button" className="filterButton" onClick={this.submition}>
                         LogIn
                     </Button>
                     <br></br>
-                    <Button variant="primary" type="button" href='/register'>
+                    <Button variant="primary" type="button"className="link" href='/register'>
                         Register
                     </Button>
                     </Form>

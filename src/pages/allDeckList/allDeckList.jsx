@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, Button, Container, Alert, Row} from 'react-bootstrap';
 import axios from "axios";
 import {baseURL} from '../../middleware/axios';
+import Header from './../../components/header';
 
 import './allDeckList.scss';
 
@@ -15,6 +16,7 @@ export default class AllDeckList extends React.Component {
         size:32,
         decks:[],
         totalDecks:null,
+        filteredDecks:[]
     };
     this.handleNewDeckName = this.handleNewDeckName.bind(this);
     this.handleFilterName = this.handleFilterName.bind(this);
@@ -36,7 +38,7 @@ export default class AllDeckList extends React.Component {
     }
 
     createDeck = () =>{
-        const createDeck = axios.post(baseURL+'/createDeck', {username: localStorage.getItem('username'), deck_name:this.state.newDeckName});
+        const createDeck = axios.post(baseURL+'/createDeck', {username: localStorage.getItem('username'), deck_name:this.state.newDeckName, token:'Bearer ' + localStorage.getItem('token')});
         this.findDecks();
     }
 
@@ -45,13 +47,25 @@ export default class AllDeckList extends React.Component {
         if(this.state.filterName){
             searchString=`${searchString}&name=${this.state.filterName}`;
         }
-        const deckArray = await axios.get(baseURL+`/allDecks/?pageNumber=${pageNumber}&size=18${searchString}&username=${localStorage.getItem('username')}&type=2`);        
+        const deckArray = await axios.get(baseURL+`/allDecks/?pageNumber=${pageNumber}&size=18${searchString}&username=${localStorage.getItem('username')}&type=2`,
+        {headers: {Authorization:'Bearer ' + localStorage.getItem('token')}});        
         this.setState({
             decks:deckArray.data.decks,
+            filteredDecks:deckArray.data.decks,
             totalDecks:deckArray.data.listSize
         })
         
     }
+
+    filterDecks = () =>{
+       const filter =  this.state.decks.filter((deck) =>{
+            if (deck.deck_name.includes(this.state.filterName)){
+                return deck;
+            } });
+
+            this.setState({filteredDecks:filter})
+    }
+
     previousPage = () =>{
         if(this.state.pageNumber>1){
             this.findDecks(this.state.pageNumber-1);
@@ -68,6 +82,7 @@ export default class AllDeckList extends React.Component {
     render(){
         return (
             <React.Fragment>
+            <Header isLogged={localStorage.getItem('token')}/>
             <div className="flexBox">
                 <div className='sideBar'>
                 <Form className="">
@@ -94,14 +109,14 @@ export default class AllDeckList extends React.Component {
                         <br></br>
                     </Form.Group>
                     <br></br>
-                     <Button variant="primary" type="button" className='filterButton' onClick={() => this.findCards(1)}>
+                     <Button variant="primary" type="button" className='filterButton' onClick={() => this.filterDecks()}>
                         Filter
                     </Button> 
                     </Form>
                 </div>
                 <div className="mainDiv">
                     <div className="cardListDiv">
-                    {this.state.decks.map((deck) =><a className='link' href={`/deck/${deck.deck_name}`}><div className="deckDiv" key={deck.id}><span className='deckLink'>{`Deck:${deck.deck_name}`}</span></div></a>)}
+                    {this.state.filteredDecks.map((deck) =><a className='link' href={`/deck/${deck.deck_name}`}><div className="deckDiv" key={deck.id}><span className='deckLink'>{`Deck:${deck.deck_name}`}</span></div></a>)}
                     </div>
                     <div className='buttons'>
                     <button className='paginationButton' type="button" onClick={this.previousPage}>{ `<` }</button>

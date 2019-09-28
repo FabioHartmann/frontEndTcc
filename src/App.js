@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
     <div>
-      <Header />
+      {/* <Header/> */}
       {/* <Route exact path="/" component={AllCardsList} /> */}
       <Route  path="/register" component={Register} />
       <Route path="/login" component={Login} />
