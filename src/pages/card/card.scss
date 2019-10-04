@@ -1,6 +1,14 @@
 .wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top:30px;
+}
+
+.mainWwrapper{
     width: 100vw;
-    height: 100vh;
+    height: 80vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -66,7 +74,39 @@ textarea{
     }
 }
 .cardOwn{
-    width: 40vw;
-    height: 8vw;
+    min-height: 30px;
+    width: 300px;
+    height: 6vw;
     background: #2C3439;
+    margin-top:24px;
+    color: #f1f1f1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: space-between;
+
 }
+
+// .priceDiv{
+//     display:flex;
+//     flex-wrap: nowrap;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     align-content:space-between;
+//     align-items: stretch;
+//     background: #2C3439;
+//     width:40vw;
+    
+
+// }
+
+// .priceLine{
+//     display: flex;
+//     flex-direction: column;
+//     flex-wrap: wrap;
+//     justify-content: space-between;
+//     align-content: stretch;
+//     margin-top:20px;
+//     width: 40vw;
+// }

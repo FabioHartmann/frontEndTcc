@@ -22,13 +22,8 @@ export default class Deck extends React.Component {
     }
 
     async getDeck(){   
-        console.log('a');
-        
-        console.log('Func' + localStorage.getItem('token'));
-             
         const foundDeck = await axios.get(baseURL+`/deck/?name=${this.props.match.params.name}&username=${localStorage.getItem('username')}`,
         {headers: {Authorization:'Bearer ' + localStorage.getItem('token')}});     
-
 
         this.setState({
             mainDeck:foundDeck.data.deck[0].deck_cards,
@@ -69,8 +64,8 @@ export default class Deck extends React.Component {
         return (
             <React.Fragment>
             <Header isLogged={localStorage.getItem('token')}/>
-            <div className="flexBox">
-                <div className='sideBar '>
+            <div className="deckFlexBox">
+                <div className='deckSideBar'>
                 </div>
                 <div className="deckMainDiv">
                     <span className='title'>Main Deck</span>

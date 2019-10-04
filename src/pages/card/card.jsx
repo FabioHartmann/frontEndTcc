@@ -4,9 +4,12 @@ import axios from "axios";
 import { Route, Redirect } from 'react-router'
 import {baseURL} from '../../middleware/axios';
 import Header from './../../components/header';
+import {ToastsContainer, ToastsStore} from 'react-toasts';
+
 
 
 import './card.scss';
+import { isFlowBaseAnnotation } from '@babel/types';
 
 export default class Card extends React.Component {
     constructor(props) {
@@ -96,7 +99,10 @@ export default class Card extends React.Component {
         if(deck && deckCardNumber){
             const insertCard = await axios.post(baseURL+'/insertCardIntoDeck', {username: username, card:postCard, deck_name:deck, token:'Bearer ' + localStorage.getItem('token')});
         } 
-        this.checkHasCardOwner();      
+        this.checkHasCardOwner(); 
+        this.renderCardAmountInCollection();
+
+             
     }
 
     getDecks = async () =>{     
@@ -116,7 +122,7 @@ export default class Card extends React.Component {
                     <option></option>
                 {this.state.decks.map((deck) => <option>{deck.deck_name}</option>)}    
                 </select>
-                <input type="number" placeholder="Card amount" required value={this.state.deckCardNumber} onChange={this.handleDeckNumber} />
+                <input type="number" required placeholder="Card amount" required value={this.state.deckCardNumber} onChange={this.handleDeckNumber} />
                 <button type="button" className="collectionButton" onClick={this.insertCardIntoDeck}>Add to Deck</button>
                 </>
             )
@@ -128,12 +134,26 @@ export default class Card extends React.Component {
         return(
         <div className='cardOwn'>
         <span>Card amount in:</span>
-        <br/>
-        <input className='firstLine informationInput' readOnly value={`Collection: ${cardAmount}`}/>
+        <input className=' informationInput' readOnly value={`Collection: ${cardAmount}`}/>
         </div>)
         }
-
     }
+
+    // renderPrices = () =>{
+    //     const {card} =this.state;
+    //     if(card){
+    //         if(!!card.card_sets){
+    //             return <div className='priceDiv'>
+    //             {card.card_sets.map((set) => <div className="priceLine">
+    //             <input className=' 'readOnly value={`Set Name ${set.set_name}`}/>
+    //             <input className=' ' readOnly value={`Set Code: ${set.set_code}`}/>
+    //             <input className=' ' readOnly value={`Set Rarity: ${set.set_rarity}`}/>
+    //             <input className=' ' readOnly value={`Set Price: ${set.set_price}`}/>
+    //             </div> )}
+    //             </div>
+    //         }
+    //     }
+    // }
 
     cardInformation = () =>{
         const {card} =this.state;
@@ -141,7 +161,6 @@ export default class Card extends React.Component {
             if(!card.archetype){
                 card.archetype='';
             }
-            console.log(card.type);
             
             if(card.type ==="Spell Card"){
                 return (
@@ -234,6 +253,7 @@ export default class Card extends React.Component {
                         <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
                         <input className="informationInput" readOnly value={`Attribute:${card.attribute}`}/>
                         <input className="informationInput" readOnly value={`ATK: ${card.atk}`}/>
+                        <input className="informationInput" readOnly value={`DEF: ${card.def}`}/>
                         {this.checkBanList()}
                         <textarea readOnly value={`Description:${card.desc}`}/>
                     </div>
@@ -241,14 +261,16 @@ export default class Card extends React.Component {
             }
         }
     }
-        render(){    
-            console.log(this.state.decks);
-               
+        render(){                  
         return (
             <>
             <Header isLogged={localStorage.getItem('token')}/>
-            <div className='wrapper'>
+            <div className="wrapper">
+            <div className='mainWwrapper'>
+                <div>
                 {this.showImage()}
+                {this.renderCardAmountInCollection()}
+                </div>
                 {this.cardInformation()}
             <div className="cardForm">
             <label>Card Amount:</label>
@@ -257,7 +279,7 @@ export default class Card extends React.Component {
             {this.checkHasCardOwner()}
             </div>
             </div>
-            {this.renderCardAmountInCollection()}
+            </div>
             </>
         )
     }

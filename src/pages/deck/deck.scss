@@ -9,3 +9,22 @@ justify-content: space-between;
     font-weight: 600;
     font-size: 24px;;
 }
+.deckFlexBox{
+    display: flex;
+    flex-direction: row;
+    align-items:stretch;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    height:100vh;
+}
+.deckSideBar{
+    background: #2C3439;
+    display: flex;
+    color:#f1f1f1;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    min-width: 300px;
+    padding-top: 100px;
+}
