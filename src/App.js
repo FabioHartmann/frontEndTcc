@@ -10,7 +10,7 @@ import AllDeckList from './pages/allDeckList/allDeckList';
 import Deck from './pages/deck/deck';
 
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
     <Router>
     <div>
       {/* <Header/> */}
-      {/* <Route exact path="/" component={AllCardsList} /> */}
+      <Route exact path="/" component={Login} />
       <Route  path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/allCardList" component={AllCardsList} />
