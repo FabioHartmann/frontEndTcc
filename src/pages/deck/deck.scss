@@ -1,13 +1,15 @@
+
 .deckMainDiv{
-display:flex;
-flex-direction: column;
-justify-content: space-between;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // overflow-y: auto;
 }
 .title{
     margin-top: 20px;
     margin-left:20px;
     font-weight: 600;
-    font-size: 24px;;
+    font-size: 24px;
 }
 .deckFlexBox{
     display: flex;
@@ -16,7 +18,6 @@ justify-content: space-between;
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow: hidden;
-    height:100vh;
 }
 .deckSideBar{
     background: #2C3439;

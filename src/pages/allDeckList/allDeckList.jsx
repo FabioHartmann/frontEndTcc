@@ -79,6 +79,14 @@ export default class AllDeckList extends React.Component {
         }// tratar erro
     }
     
+    renderDecks = () =>{
+        if(this.state.filteredDecks.length >= 1){
+         return this.state.filteredDecks.map((deck) =><a className='link' href={`/deck/${deck.deck_name}`}><div className="deckDiv" key={deck.id}><span className='deckLink'>{`Deck:${deck.deck_name}`}</span></div></a>)
+        }
+    }
+
+
+
     render(){
         return (
             <React.Fragment>
@@ -116,7 +124,7 @@ export default class AllDeckList extends React.Component {
                 </div>
                 <div className="mainDiv">
                     <div className="cardListDiv">
-                    {this.state.filteredDecks.map((deck) =><a className='link' href={`/deck/${deck.deck_name}`}><div className="deckDiv" key={deck.id}><span className='deckLink'>{`Deck:${deck.deck_name}`}</span></div></a>)}
+                    {this.renderDecks()}
                     </div>
                     <div className='buttons'>
                     <button className='paginationButton' type="button" onClick={this.previousPage}>{ `<` }</button>

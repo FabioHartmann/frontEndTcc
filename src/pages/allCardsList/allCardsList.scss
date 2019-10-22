@@ -5,7 +5,7 @@
     justify-content: flex-end;
     flex-wrap: nowrap;
     overflow: hidden;
-    height:100vh;
+    height:calc(100vh - 120px);
 }
 .sideBar{
     background: #2C3439;
@@ -18,9 +18,10 @@
     align-content: center;
     min-width: 300px;
     padding-top: 100px;
+    
 }
 .filterButton{
-    background: #2C3439;
+    background:#2C3439;
     color:#f1f1f1;
     font-size: 16;
 }
@@ -42,7 +43,7 @@
     align-content: flex-start;
     flex-wrap: wrap;
     justify-content: flex-start;
-  
+    overflow-y: auto;
 }
 .cardDiv{
     max-width: 170px;

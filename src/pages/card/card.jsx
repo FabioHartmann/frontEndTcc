@@ -31,13 +31,14 @@ export default class Card extends React.Component {
 }
     
     componentDidMount(){
+        
         this.getCard();
         this.getDecks();
     }
-
+    
     async getCard(){
         const foundCard = await axios.get(baseURL+`/singleCard/${this.props.match.params.id}/?username=${localStorage.getItem('username')}`);  
-        console.log(foundCard);
+        console.log(foundCard.data.list);
         this.setState({
             card:foundCard.data.list,
             cardOwn:foundCard.data.userOwnThisCard,
@@ -66,11 +67,19 @@ export default class Card extends React.Component {
 
     checkBanList = () =>{
         const {card} = this.state;      
-          console.log('banlist information',!!card.banlist_info);
         if(!!card.banlist_info && !!card.banlist_info.ban_tcg){
             return (
             <input className="informationInput" readOnly value={`Banlist TCG: ${card.banlist_info.ban_tcg}`}/>
             )
+        }
+    }
+
+    checkArchetype = () =>{
+        const {card} = this.state;      
+        if(!!card.archetype){
+            return (
+                <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                )
         }
     }
 
@@ -139,21 +148,21 @@ export default class Card extends React.Component {
         }
     }
 
-    // renderPrices = () =>{
-    //     const {card} =this.state;
-    //     if(card){
-    //         if(!!card.card_sets){
-    //             return <div className='priceDiv'>
-    //             {card.card_sets.map((set) => <div className="priceLine">
-    //             <input className=' 'readOnly value={`Set Name ${set.set_name}`}/>
-    //             <input className=' ' readOnly value={`Set Code: ${set.set_code}`}/>
-    //             <input className=' ' readOnly value={`Set Rarity: ${set.set_rarity}`}/>
-    //             <input className=' ' readOnly value={`Set Price: ${set.set_price}`}/>
-    //             </div> )}
-    //             </div>
-    //         }
-    //     }
-    // }
+    renderPrices = () =>{
+        const {card} =this.state;
+        if(card){
+            if(!!card.card_sets){
+                return <div className='priceDiv'>
+                {card.card_sets.map((set) => <div className="priceLine">
+                <input className=' 'readOnly value={`Set Name: ${set.set_name}`}/>
+                <input className=' ' readOnly value={`Set Code: ${set.set_code}`}/>
+                <input className=' ' readOnly value={`Set Rarity: ${set.set_rarity}`}/>
+                <input className=' ' readOnly value={`Set Price: ${set.set_price}$`}/>
+                </div> )}
+                </div>
+            }
+        }
+    }
 
     cardInformation = () =>{
         const {card} =this.state;
@@ -169,7 +178,7 @@ export default class Card extends React.Component {
                         <input className='firstLine informationInput'readOnly value={`ID:${card.id}`}/>
                         <input className="informationInput" readOnly value={`Race: ${card.race}`}/>
                         <input className="informationInput" readOnly value={`Type: ${card.type}`}/>
-                        <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                        {this.checkArchetype()}
                         {this.checkBanList()}
                         <textarea readOnly value={`Description:${card.desc}`}/>
                     </div>
@@ -181,7 +190,7 @@ export default class Card extends React.Component {
                         <input className='firstLine informationInput'readOnly value={`ID:${card.id}`}/>
                         <input className="informationInput" readOnly value={`Race: ${card.race}`}/>
                         <input className="informationInput" readOnly value={`Type: ${card.type}`}/>
-                        <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                        {this.checkArchetype()}
                         {this.checkBanList()}
                         <textarea readOnly value={`Description:${card.desc}`}/>
 
@@ -207,7 +216,7 @@ export default class Card extends React.Component {
                         <input className="informationInput" readOnly value={`ID:${card.id}`}/>
                         <input className="informationInput"readOnly value={`Race: ${card.race}`}/>
                         <input className="informationInput" readOnly value={`Type: ${card.type}`}/>
-                        <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                        {this.checkArchetype()}
                         <input className="informationInput" readOnly value={`Attribute:${card.attribute}`}/>
                         <input className="informationInput" readOnly value={`Link Markers: ${card.linkmarkers}`}/>
                         <input className="informationInput" readOnly value={`ATK: ${card.atk}`}/>
@@ -231,7 +240,7 @@ export default class Card extends React.Component {
                             <input className="informationInput" readOnly value={`ID:${card.id}`}/>
                             <input className="informationInput" readOnly value={`Race: ${card.race}`}/>
                             <input className="informationInput" readOnly value={`Type: ${card.type}`}/>
-                            <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                            {this.checkArchetype()}
                             <input className="informationInput" readOnly value={`Attribute:${card.attribute}`}/>
                             <input className="informationInput" readOnly value={`Scale: ${card.scale}`}/>
                             <input className="informationInput"readOnly value={`ATK: ${card.atk}`}/>
@@ -250,7 +259,7 @@ export default class Card extends React.Component {
                         <input className="informationInput" readOnly value={`ID:${card.id}`}/>
                         <input className="informationInput" readOnly value={`Race: ${card.race}`}/>
                         <input className="informationInput" readOnly value={`Type: ${card.type}`}/>
-                        <input className="informationInput" readOnly value={`Archetype:${card.archetype}`}/>
+                        {this.checkArchetype()}
                         <input className="informationInput" readOnly value={`Attribute:${card.attribute}`}/>
                         <input className="informationInput" readOnly value={`ATK: ${card.atk}`}/>
                         <input className="informationInput" readOnly value={`DEF: ${card.def}`}/>
@@ -278,6 +287,7 @@ export default class Card extends React.Component {
             <button type="button" className="collectionButton" onClick={this.insertCardInCollection}>Add to Collection</button>
             {this.checkHasCardOwner()}
             </div>
+            {this.renderPrices()}
             </div>
             </div>
             </>

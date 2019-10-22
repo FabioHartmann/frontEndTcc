@@ -114,7 +114,13 @@ export default class MyCards extends React.Component {
 
     checkCards = () =>{
         if(this.state.cards.length >0 ){
-            return this.state.cards.map((element) =><div className="cardDiv" key={element.card.id}><a href={`/card/${element.card.id}`}><img src={element.card.card_images[0].image_url}  className='card'></img></a></div>)
+            const positiveCardAmount = this.state.cards.filter((card) =>{
+                if(card.card_amount >0){
+                    return true
+                }
+                return false                
+            })
+            return positiveCardAmount.map((element) =><div className="cardDiv" key={element.card.id}><a href={`/card/${element.card.id}`}><img src={element.card.card_images[0].image_url}  className='card'></img></a></div>)
         }
     }
     render(){

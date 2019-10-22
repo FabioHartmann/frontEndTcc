@@ -88,18 +88,16 @@ textarea{
 
 }
 
-// .priceDiv{
-//     display:flex;
-//     flex-wrap: nowrap;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     align-content:space-between;
-//     align-items: stretch;
-//     background: #2C3439;
-//     width:40vw;
-    
+.priceDiv{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-top: 35px;
+    padding: 35px;
+    background: #2C3439;
+    margin-left:90px;
 
-// }
+}
 
 // .priceLine{
 //     display: flex;
