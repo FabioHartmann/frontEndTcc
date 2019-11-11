@@ -80,9 +80,10 @@ export default class AllDeckList extends React.Component {
     }
     
     renderDecks = () =>{
+        if(this.state.filteredDecks){
         if(this.state.filteredDecks.length >= 1){
          return this.state.filteredDecks.map((deck) =><a className='link' href={`/deck/${deck.deck_name}`}><div className="deckDiv" key={deck.id}><span className='deckLink'>{`Deck:${deck.deck_name}`}</span></div></a>)
-        }
+        }}
     }
 
 
@@ -126,11 +127,11 @@ export default class AllDeckList extends React.Component {
                     <div className="cardListDiv">
                     {this.renderDecks()}
                     </div>
-                    <div className='buttons'>
+                    {/* <div className='buttons'>
                     <button className='paginationButton' type="button" onClick={this.previousPage}>{ `<` }</button>
                     <b className='paginationText'>{`Page ${this.state.pageNumber}`}</b>
                     <button className='paginationButton' type="button" onClick={this.nextPage}>{ `>` }</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             </React.Fragment>

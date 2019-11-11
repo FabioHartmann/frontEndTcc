@@ -150,8 +150,8 @@ export default class Card extends React.Component {
 
     renderPrices = () =>{
         const {card} =this.state;
-        if(card){
-            if(!!card.card_sets){
+        
+        if(card && card.card_sets.length > 0){
                 return <div className='priceDiv'>
                 {card.card_sets.map((set) => <div className="priceLine">
                 <input className=' 'readOnly value={`Set Name: ${set.set_name}`}/>
@@ -160,7 +160,7 @@ export default class Card extends React.Component {
                 <input className=' ' readOnly value={`Set Price: ${set.set_price}$`}/>
                 </div> )}
                 </div>
-            }
+           
         }
     }
 

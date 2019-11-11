@@ -67,7 +67,6 @@ export default class AllCardsList extends React.Component {
     }
 
     findCards = async (pageNumber) => {
-        console.log('numero da page depois de clicar', this.state.pageNumber);
         let searchString ='';
         if(this.state.name){
             searchString=`${searchString}&name=${this.state.name}`;
@@ -152,6 +151,7 @@ export default class AllCardsList extends React.Component {
                             <option>Warrior </option>
                             <option>Winged Beast</option>
                             <option>Wyrm </option>
+                            <option>Zombie </option>
                             <option>Normal</option>
                             <option>Field</option>
                             <option>Equip</option>
